@@ -14,19 +14,28 @@ body, html {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px 40px;
   font-size: 2rem;
-  color: #0F0;
-  background: transparent;
-  border: 2px solid #0F0;
+  background: none;          /* Remove button background */
+  border: none;              /* Remove border */
+  color: white;              /* Start with white */
   cursor: pointer;
-  animation: blink 1s infinite;
+  opacity: 0;                /* Start invisible */
+  animation: flashText 1s infinite, fadeIn 1s forwards 4s; /* Fade in after 4s + flashing */
 }
 
-@keyframes blink {
+@keyframes flashText {
+  0%, 50%, 100% { color: white; }
+  25%, 75% { color: gray; }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* @keyframes blink {
   0%,50%,100% { opacity: 1; }
   25%,75% { opacity: 0; }
-}
+} */
 
 /* Box Grid */
 #boxGrid {
@@ -40,18 +49,23 @@ body, html {
 .box {
   background-color: #111;
   border: 2px solid #0FF;
-  height: 150px;
+  border-radius: 20px;      /* Make more rounded like Wii */
+  height: 180px;             /* Slightly taller */
+  width: 220px;              /* Slightly wider */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.4rem;         /* Larger text */
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px #0FF;
 }
 
 .box:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
+  box-shadow: 0 0 20px #0FF; /* Glow effect */
 }
+
 
 /* Cursor Buddy */
 #cursorBuddy {
