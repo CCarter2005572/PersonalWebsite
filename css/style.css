@@ -1,85 +1,148 @@
-/* Base Styles */
-body, html {
+/* GENERAL RESET */
+* {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  font-family: 'Arial', sans-serif;
-  background-color: #000;
-  color: #0F0;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
 }
 
-/* Enter Button */
+/* PAGE CONTAINER */
+#pageContainer {
+  height: 200vh; /* Two viewport heights: Matrix + Homepage */
+  overflow-x: hidden;
+}
+
+/* MATRIX PAGE */
+#matrixPage {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background-color: black;
+  overflow: hidden;
+}
+
+#matrixCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 #enterBtn {
   position: absolute;
-  top: 50%;
+  bottom: 10%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   font-size: 2rem;
-  background: none;          /* Remove button background */
-  border: none;              /* Remove border */
-  color: white;              /* Start with white */
+  color: white;
+  background: none;
+  border: none;
   cursor: pointer;
-  opacity: 0;                /* Start invisible */
-  animation: flashText 1s infinite, fadeIn 1s forwards 4s; /* Fade in after 4s + flashing */
+  animation: flash 1s infinite alternate;
 }
 
-@keyframes flashText {
-  0%, 50%, 100% { color: white; }
-  25%, 75% { color: gray; }
+/* Flashing ENTER button */
+@keyframes flash {
+  from { color: white; }
+  to { color: gray; }
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+/* HOMEPAGE */
+#homePage {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* placeholder city pop vibe */
+  overflow: hidden;
 }
 
-/* @keyframes blink {
-  0%,50%,100% { opacity: 1; }
-  25%,75% { opacity: 0; }
-} */
+/* CRT overlay */
+.crt-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    rgba(255,255,255,0.03) 0px, 
+    rgba(255,255,255,0.03) 1px, 
+    transparent 1px, 
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
 
-/* Box Grid */
+/* BUDDY SELECT */
+#buddyControls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  z-index: 101;
+}
+
+/* BOX GRID */
 #boxGrid {
   display: grid;
-  grid-template-columns: repeat(3, 200px);
-  gap: 30px;
-  justify-content: center;
-  margin-top: 150px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 15%;
+  z-index: 10;
 }
 
 .box {
-  background-color: #111;
-  border: 2px solid #0FF;
-  border-radius: 20px;      /* Make more rounded like Wii */
-  height: 180px;             /* Slightly taller */
-  width: 220px;              /* Slightly wider */
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 1rem;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;         /* Larger text */
+  font-size: 1.5rem;
+  color: white;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 10px #0FF;
+  transition: transform 0.3s, background 0.3s;
 }
 
 .box:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 20px #0FF; /* Glow effect */
+  transform: scale(1.2);
+  background: rgba(255,255,255,0.35);
 }
 
-
-/* Cursor Buddy */
+/* CURSOR BUDDY */
 #cursorBuddy {
   position: absolute;
-  width: 50px;
+  width: 60px;
+  height: 60px;
   pointer-events: none;
-  z-index: 999;
+  z-index: 102;
 }
 
-/* Buddy Selector */
-#buddyControls {
+/* VOLUME SLIDER */
+#volumeControl {
   position: fixed;
-  top: 10px;
-  left: 10px;
-  color: #0F0;
-  z-index: 1000;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 10px;
+  border-radius: 10px;
+  z-index: 105;
+}
+
+#volumeControl label {
+  color: white;
+  margin-right: 5px;
+  font-size: 0.9rem;
+}
+
+#volumeSlider {
+  width: 120px;
+  cursor: pointer;
 }
