@@ -1,0 +1,11 @@
+.disco-mode {
+  animation: discoColors 5s linear infinite;
+}
+
+@keyframes discoColors {
+  0% { background-color: #FF0; color: #0FF; }
+  25% { background-color: #F0F; color: #FF0; }
+  50% { background-color: #0FF; color: #F0F; }
+  75% { background-color: #FF0; color: #0F0; }
+  100% { background-color: #F0F; color: #FF0; }
+}

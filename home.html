@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/crt.css">
+  <link rel="stylesheet" href="./css/disco.css">
+  <link rel="stylesheet" href="./css/animations.css">
+</head>
+<body>
+
+  <!-- CRT Overlay -->
+  <div class="crt-overlay"></div>
+
+  <!-- Cursor Buddy Selector -->
+  <div id="buddyControls">
+    <label for="buddySelect">Choose your companion: </label>
+    <select id="buddySelect">
+      <option value="rabbit">Rabbit</option>
+      <option value="lizard">Lizard</option>
+    </select>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="./assets/sounds/citypop.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Parallax Skyline -->
+  <div class="skyline-layer" id="skyline1"></div>
+  <div class="skyline-layer" id="skyline2"></div>
+
+  <!-- Wii-style Boxes -->
+  <div id="boxGrid">
+    <div class="box">Project 1</div>
+    <div class="box">Project 2</div>
+    <div class="box">Project 3</div>
+    <div class="box">Project 4</div>
+    <div class="box">Project 5</div>
+    <div class="box">Project 6</div>
+  </div>
+
+  <!-- Cursor Buddy -->
+  <img src="./assets/images/rabbit.png" id="cursorBuddy" alt="Cursor Buddy">
+
+  <!-- JS -->
+  <script src="./js/home.js"></script>
+  <script src="./js/cursorBuddy.js"></script>
+  <script src="./js/parallax.js"></script>
+  <script src="./js/easterEggs.js"></script>
+  <script src="./js/music.js"></script>
+</body>
+</html>
