@@ -10,22 +10,37 @@
 <body>
 
 <div id="pageContainer">
+<!-- MATRIX PAGE -->
+<section id="matrixPage">
+  <canvas id="matrixCanvas"></canvas>
+  <!-- ENTER starts hidden+disabled; CSS/JS will reveal after 4s -->
+  <button id="enterBtn" disabled>ENTER</button>
 
-  <!-- MATRIX PAGE -->
-  <section id="matrixPage">
-    <canvas id="matrixCanvas"></canvas>
-    <button id="enterBtn">ENTER</button>
+  <!-- Matrix music -->
+  <audio id="matrixMusic" loop>
+    <source src="./assets/music/digitalrain.mp3" type="audio/mpeg">
+  </audio>
 
-    <!-- Matrix music -->
-    <audio id="matrixMusic" loop>
-      <source src="./assets/sounds/digitalrain.mp3" type="audio/mpeg">
-    </audio>
-  </section>
+  <!-- Matrix click SFX -->
+  <audio id="matrixClickSfx">
+    <source src="./assets/sounds/matrix-click.mp3" type="audio/mpeg">
+  </audio>
+</section>
 
   <!-- HOMEPAGE -->
   <section id="homePage">
+    <!-- Background 16-bit Tokyo panning video -->
+    <video id="cityVideo" autoplay loop muted playsinline>
+      <source src="./assets/images/train.mp4" type="video/mp4">
+    </video>
+
+    <!-- Color filter overlay above video (tweak in CSS) -->
+    <div class="color-filter"></div>
+
+    <!-- CRT overlay stays on top -->
     <div class="crt-overlay"></div>
 
+    <!-- Buddy controls -->
     <div id="buddyControls">
       <label for="buddySelect">Choose your companion: </label>
       <select id="buddySelect">
@@ -36,16 +51,39 @@
 
     <!-- City pop music -->
     <audio id="bgMusic" loop>
-      <source src="./assets/sounds/citypop.mp3" type="audio/mpeg">
+      <source src="./assets/music/citypop1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Volume slider for homepage music -->
+    <!-- Volume slider (bottom-right) -->
     <div id="volumeControl">
       <label for="volumeSlider">Volume:</label>
       <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
     </div>
 
-    <!-- Example boxes / projects -->
+    <!-- Mini music player (bottom-left) -->
+    <div id="miniPlayer" class="mini-player">
+      <div class="vinyl-wrap">
+        <img id="vinyl" class="vinyl" src="./assets/images/vinyl.png" alt="vinyl">
+      </div>
+      <div class="track-meta">
+        <div id="trackTitle" class="track-title">—</div>
+        <div class="controls">
+          <button id="playPauseBtn" aria-label="Play/Pause">⏯</button>
+          <button id="togglePlaylistBtn" aria-label="Show playlist">☰</button>
+        </div>
+        <div class="progress">
+          <div id="progressBar" class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <div id="timeLabel" class="time-label">0:00 / 0:00</div>
+        </div>
+      </div>
+      <div id="playlist" class="playlist">
+        <!-- JS fills this; clicking items is disabled to prevent skipping -->
+      </div>
+    </div>
+
+    <!-- Wii-style boxes -->
     <div id="boxGrid">
       <div class="box">Project 1</div>
       <div class="box">Project 2</div>
@@ -58,7 +96,6 @@
     <!-- Cursor buddy -->
     <img src="./assets/images/rabbit-sprite.png" id="cursorBuddy" alt="Cursor Buddy">
   </section>
-
 </div>
 
 <!-- GSAP for smooth scroll & animations -->

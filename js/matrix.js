@@ -1,85 +1,85 @@
-// Matrix Canvas Setup
+// ===== MATRIX.JS =====
 const canvas = document.getElementById('matrixCanvas');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const pageContainer = document.getElementById('pageContainer');
+const enterBtn = document.getElementById('enterBtn');
+const matrixMusicEl = document.getElementById('matrixMusic');
 
+// ===== STATE =====
+let onMatrixPage = true; // start on Matrix page
+
+// ===== MATRIX LETTERS =====
 const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = [];
+let columns = Math.floor(canvas.width / fontSize);
 
-// Initialize drop positions
-for (let x = 0; x < columns; x++) {
-  drops[x] = Math.random() * canvas.height / fontSize;
+function sizeCanvas() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  columns = Math.floor(canvas.width / fontSize);
 }
+sizeCanvas();
+addEventListener('resize', sizeCanvas);
 
-// Draw Matrix rain
+// ===== DROPS =====
+const drops = [];
+for (let x = 0; x < 300; x++) drops[x] = Math.random() * canvas.height / fontSize;
+
+// ===== DRAW MATRIX RAIN =====
 function draw() {
   ctx.fillStyle = 'rgba(0,0,0,0.05)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = '#0F0';
-  ctx.font = fontSize + 'px monospace';
-
+  ctx.font = `${fontSize}px "Share Tech Mono", monospace`;
   for (let i = 0; i < drops.length; i++) {
     const text = letters[Math.floor(Math.random() * letters.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    ctx.fillText(text, (i % columns) * fontSize, drops[i] * fontSize);
     drops[i]++;
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
   }
 }
 setInterval(draw, 50);
 
-// Sounds
-const matrixClickSound = new Audio('./assets/sounds/matrix-click.mp3'); // glass click
-const wiiHoverSound = new Audio('./assets/sounds/wii-hover.mp3');       // hover sound
+// ===== MATRIX & HOMEPAGE CLICK SFX =====
+const clickSfxMatrix = new Audio('./assets/sounds/matrix-click.mp3');
+const clickSfxHome = new Audio('./assets/sounds/click.mp3');
 
-// ENTER button
-const enterBtn = document.getElementById('enterBtn');
+document.addEventListener('click', () => {
+  if (onMatrixPage) {
+    clickSfxMatrix.currentTime = 0;
+    clickSfxMatrix.play().catch(() => {});
+  } else {
+    clickSfxHome.currentTime = 0;
+    clickSfxHome.play().catch(() => {});
+  }
+});
+
+// ===== ENTER BUTTON LOGIC =====
+enterBtn.disabled = true; // start disabled
+
+// Show ENTER button after 4s
+setTimeout(() => {
+  enterBtn.classList.add('show');
+  enterBtn.disabled = false;
+}, 4000);
+
 enterBtn.addEventListener('click', () => {
-  // Play glass click
-  matrixClickSound.currentTime = 2.5;
-  matrixClickSound.play();
+  // Stop Matrix music
+  if (matrixMusicEl) {
+    matrixMusicEl.pause();
+    matrixMusicEl.currentTime = 0;
+  }
 
-  // Scroll smoothly to homepage (camera pan)
-  gsap.to(window, {
-    scrollTo: { y: window.innerHeight },
+  // Animate pageContainer to homepage
+  gsap.to(pageContainer, {
+    y: `-${window.innerHeight}px`,
     duration: 2,
-    ease: "power2.inOut"
+    ease: 'power2.inOut',
+    onComplete: () => {
+      onMatrixPage = false; // now officially on homepage
+    }
   });
 });
 
-// Play glass click on any click in the Matrix page
-document.getElementById('matrixPage').addEventListener('click', () => {
-  matrixClickSound.currentTime = 0;
-  matrixClickSound.play();
-});
-
-// Homepage box hover sound (subtle Wii feel)
-const boxes = document.querySelectorAll('.box');
-boxes.forEach(box => {
-  box.addEventListener('mouseenter', () => {
-    wiiHoverSound.currentTime = 0;
-    wiiHoverSound.play();
-  });
-
-  // Existing click sound for boxes
-  const wiiClickSound = new Audio('./assets/sounds/wii-click.mp3');
-  box.addEventListener('click', () => {
-    wiiClickSound.currentTime = 0;
-    wiiClickSound.play();
-
-    // Box enlarge animation
-    gsap.to(box, {
-      scale: 10,
-      opacity: 0,
-      duration: 1,
-      onComplete: () => {
-        alert(`Entering ${box.textContent}`);
-      }
-    });
-  });
-});
-
+// ===== DISABLE MANUAL SCROLL =====
+document.body.style.overflow = 'hidden';

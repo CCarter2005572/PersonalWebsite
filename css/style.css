@@ -6,11 +6,23 @@
   font-family: 'Courier New', monospace;
 }
 
-/* PAGE CONTAINER */
-#pageContainer {
-  height: 200vh; /* Two viewport heights: Matrix + Homepage */
-  overflow-x: hidden;
+/* SUGGESTED MATRIX FONT */
+body.matrix-active {
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
 }
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* prevent all manual scrolling */
+}
+
+#pageContainer {
+  height: 200vh; /* two stacked pages */
+  width: 100vw;
+  transform: translateY(0);
+}
+
+
 
 /* MATRIX PAGE */
 #matrixPage {
@@ -30,6 +42,7 @@
   display: block;
 }
 
+/* ENTER button - hidden at start */
 #enterBtn {
   position: absolute;
   bottom: 10%;
@@ -40,7 +53,15 @@
   background: none;
   border: none;
   cursor: pointer;
+  opacity: 0; /* hidden by default */
+  pointer-events: none;
   animation: flash 1s infinite alternate;
+  transition: opacity 1s ease-in-out;
+}
+
+#enterBtn.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Flashing ENTER button */
@@ -54,8 +75,24 @@
   height: 100vh;
   width: 100vw;
   position: relative;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* placeholder city pop vibe */
   overflow: hidden;
+}
+
+#homePage.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* VIDEO BACKGROUND */
+#cityVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
 }
 
 /* CRT overlay */
@@ -71,6 +108,7 @@
     transparent 1px, 
     transparent 2px
   );
+  mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 100;
 }
@@ -92,7 +130,8 @@
   width: 80%;
   margin: 0 auto;
   padding-top: 15%;
-  z-index: 10;
+  position: relative;
+  z-index: 101;
 }
 
 .box {
@@ -145,4 +184,93 @@
 #volumeSlider {
   width: 120px;
   cursor: pointer;
+}
+
+/* MUSIC PLAYER BOX */
+#musicPlayer {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 1rem;
+  width: 250px;
+  padding: 10px;
+  z-index: 106;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+/* Compact by default */
+#musicPlayer.compact {
+  height: 80px;
+}
+
+/* Expanded for playlist */
+#musicPlayer.expanded {
+  height: 300px;
+}
+
+/* Player content */
+#musicPlayer .vinyl {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, black 60%, gray 80%, silver 100%);
+  margin-right: 10px;
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#musicPlayer .track-info {
+  flex-grow: 1;
+  color: white;
+  font-size: 0.9rem;
+}
+
+#musicPlayer .controls {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+#musicPlayer button {
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+#musicPlayer .progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,0.3);
+  margin-top: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+#musicPlayer .progress-bar {
+  height: 100%;
+  width: 0%;
+  background: limegreen;
+}
+
+/* Playlist */
+#playlist {
+  margin-top: 10px;
+  color: white;
+  font-size: 0.85rem;
+  display: none;
+}
+
+#musicPlayer.expanded #playlist {
+  display: block;
 }

@@ -1,55 +1,73 @@
 const buddy = document.getElementById('cursorBuddy');
 const selector = document.getElementById('buddySelect');
 
-let followCursor = false;
-let buddyInterval;
+let mode = 'random'; // 'random' | 'follow'
+let target = { x: innerWidth/2, y: innerHeight/2 };
+let buddyPos = { x: innerWidth/2, y: innerHeight/2 };
+let buddyRadius = 24; // “touch” radius (~buddy half-size)
+let rafId = null;
 
-// Change buddy sprite based on selection
-selector.addEventListener('change', e => {
+// swap sprite when user changes animal
+selector?.addEventListener('change', e => {
   buddy.src = `./assets/images/${e.target.value}-sprite.png`;
 });
 
-// Move buddy smoothly to cursor
-function moveToCursor(x, y) {
-  gsap.to(buddy, { x: x - buddy.width/2, y: y - buddy.height/2, duration: 0.5 });
-  animateSprite();
-}
-
-// Random walk to a position on screen
-function randomWalk() {
-  const x = Math.random() * (window.innerWidth - buddy.width);
-  const y = Math.random() * (window.innerHeight - buddy.height);
-  gsap.to(buddy, { x: x, y: y, duration: 3, onUpdate: animateSprite });
-}
-
-// Sprite animation placeholder
-let currentFrame = 0;
-function animateSprite() {
-  // Placeholder: here you would update the background-position for the sprite sheet
-  // Example for CSS sprite sheet:
-  // buddy.style.backgroundPosition = `-${currentFrame * 50}px 0`;
-  currentFrame = (currentFrame + 1) % 4; // assuming 4 frames
-}
-
-// Cycle: 10s random walk → 5s follow cursor
-function startBuddyCycle() {
-  followCursor = false;
-  randomWalk();
-
-  buddyInterval = setInterval(() => {
-    // Follow cursor for 5s
-    followCursor = true;
-    setTimeout(() => {
-      followCursor = false;
-      randomWalk();
-    }, 5000);
-  }, 15000); // total cycle 15s
-}
-
-// Listen for cursor movement
-document.addEventListener('mousemove', e => {
-  if (followCursor) moveToCursor(e.clientX, e.clientY);
+// capture cursor target
+addEventListener('mousemove', e => {
+  target.x = e.clientX;
+  target.y = e.clientY;
 });
 
-// Initialize
-startBuddyCycle();
+// physics-ish pursuit: ease toward target until within touch radius
+function update() {
+  const stiffness = (mode === 'follow') ? 0.18 : 0.04; // faster when following
+  const dx = target.x - buddyPos.x;
+  const dy = target.y - buddyPos.y;
+  const dist = Math.hypot(dx, dy);
+
+  if (mode === 'follow') {
+    if (dist > buddyRadius) {
+      buddyPos.x += dx * stiffness;
+      buddyPos.y += dy * stiffness;
+    } else {
+      // snap near cursor when “touching”
+      buddyPos.x += dx * 0.1;
+      buddyPos.y += dy * 0.1;
+    }
+  } else {
+    // random drift toward a moving random target
+    buddyPos.x += dx * stiffness;
+    buddyPos.y += dy * stiffness;
+  }
+
+  buddy.style.transform = `translate(${buddyPos.x - 25}px, ${buddyPos.y - 25}px)`;
+  rafId = requestAnimationFrame(update);
+}
+
+// random walk target changer (only in random mode)
+function nudgeRandomTarget() {
+  if (mode !== 'random') return;
+  target.x = Math.max(20, Math.min(innerWidth - 20, target.x + (Math.random()*400 - 200)));
+  target.y = Math.max(20, Math.min(innerHeight - 20, target.y + (Math.random()*300 - 150)));
+}
+
+// cycle: 10s random → 5s follow → repeat
+function startCycle() {
+  mode = 'random';
+  const randomPhase = setInterval(nudgeRandomTarget, 1000);
+  setTimeout(() => {
+    clearInterval(randomPhase);
+    mode = 'follow';
+    // after 5s, back to random with a fresh target near current pos
+    setTimeout(() => {
+      mode = 'random';
+      target.x = buddyPos.x + (Math.random()*300 - 150);
+      target.y = buddyPos.y + (Math.random()*200 - 100);
+      startCycle();
+    }, 5000);
+  }, 10000);
+}
+
+cancelAnimationFrame(rafId);
+update();
+startCycle();
