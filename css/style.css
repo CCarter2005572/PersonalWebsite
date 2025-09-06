@@ -42,7 +42,7 @@ html, body {
 /* ENTER button */
 #enterBtn {
   position: absolute;
-  bottom: 10%;
+  bottom: 30%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 2rem;
@@ -54,6 +54,7 @@ html, body {
   pointer-events: none;
   animation: flash 1s infinite alternate;
   transition: opacity 1s ease-in-out;
+  font-weight: bold;
 }
 
 #enterBtn.show {
@@ -113,7 +114,7 @@ html, body {
   position: absolute;
   top: 10px;
   left: 10px;
-  color: white;
+  color: rgb(0, 0, 0);
   z-index: 101;
 }
 
@@ -129,6 +130,7 @@ html, body {
   z-index: 101;
 }
 
+/* Main Boxes */
 .box {
   background: rgba(255,255,255,0.2);
   backdrop-filter: blur(5px);
@@ -138,7 +140,7 @@ html, body {
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: white;
+  color: rgb(0, 0, 0);
   cursor: pointer;
   transition: transform 0.3s, background 0.3s;
 }
