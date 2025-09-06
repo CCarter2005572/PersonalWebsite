@@ -77,9 +77,15 @@ enterBtn.addEventListener('click', () => {
     ease: 'power2.inOut',
     onComplete: () => {
       onMatrixPage = false; // now officially on homepage
+
+      // AUTO-PLAY MINI-PLAYER
+      if (window.miniPlayerPlay) {
+        window.miniPlayerPlay();
+      }
     }
   });
 });
+
 
 // ===== DISABLE MANUAL SCROLL =====
 document.body.style.overflow = 'hidden';

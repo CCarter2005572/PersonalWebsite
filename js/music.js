@@ -158,3 +158,7 @@ if (cityPopMusic) {
   cityPopMusic.pause();
   cityPopMusic.currentTime = 0;
 }
+
+// Make mini-player audio globally accessible
+window.miniPlayerAudio = audio;
+window.miniPlayerPlay = play;
