@@ -274,3 +274,18 @@ html, body {
 #musicPlayer.expanded #playlist {
   display: block;
 }
+
+/* Vinyl spin + fade */
+.vinyl.spin {
+  animation: spin 5s linear infinite;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}

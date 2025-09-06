@@ -34,12 +34,36 @@ addEventListener('scroll', () => {
 
 // ===== MINI PLAYER (no seeking, randomized playlist, vinyl spin) =====
 const tracks = [
+  { title: 'Changing Seasons', src: './assets/music/citypop0.mp3' },
   { title: 'Full Moon Full Life', src: './assets/music/citypop1.mp3' },
   { title: 'Colour Your Night', src: './assets/music/citypop2.mp3' },
   { title: 'Its Going Down', src: './assets/music/citypop3.mp3' },
+  { title: 'Aria of the Soul', src: './assets/music/citypop4.mp3' },
+  { title: 'Want To Be Close', src: './assets/music/citypop5.mp3' },
+  { title: 'When The Moons Reaching Out Stars', src: './assets/music/citypop6.mp3' },
+  { title: 'Iwatodai Dorm', src: './assets/music/citypop7.mp3' },
+  { title: 'Mass Destruction', src: './assets/music/citypop8.mp3' },
+  { title: 'Master of Shadow', src: './assets/music/citypop9.mp3' },
+  { title: 'Paulownia Mall', src: './assets/music/citypop10.mp3' },
+  { title: 'Master of Tartarus', src: './assets/music/citypop11.mp3' },
   { title: 'Burn My Dread', src: './assets/music/citypop12.mp3' },
+  { title: 'Wake Up, Get Up, Get Out There', src: './assets/music/citypop13.mp3' },
+  { title: 'Life Will Change', src: './assets/music/citypop14.mp3' },
+  { title: 'Will Power', src: './assets/music/citypop15.mp3' },
+  { title: 'Victory', src: './assets/music/citypop16.mp3' },
+  { title: 'Last Surprise', src: './assets/music/citypop17.mp3' },
+  { title: 'Layer Cake', src: './assets/music/citypop18.mp3' },
+  { title: 'Tokyo Daylight', src: './assets/music/citypop19.mp3' },
+  { title: 'When Mother Was There', src: './assets/music/citypop20.mp3' },
+  { title: 'Whims of Fate', src: './assets/music/citypop21.mp3' },
+  { title: 'Rivers In the Desert', src: './assets/music/citypop22.mp3' },
+  { title: 'Hoshi To Bokura To', src: './assets/music/citypop23.mp3' },
+  { title: 'Colors Flying High', src: './assets/music/citypop24.mp3' },
+  { title: 'Take Over', src: './assets/music/citypop25.mp3' },
+  { title: 'Hes a Trickster', src: './assets/music/citypop26.mp3' },
+  { title: 'I believe', src: './assets/music/citypop27.mp3' },
   { title: 'Our Light', src: './assets/music/citypop28.mp3' },
-];
+]; 
 
 const vinyl = document.getElementById('vinyl');
 const trackTitle = document.getElementById('trackTitle');

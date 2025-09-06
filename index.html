@@ -63,7 +63,8 @@
     <!-- Mini music player (bottom-left) -->
     <div id="miniPlayer" class="mini-player">
       <div class="vinyl-wrap">
-        <img id="vinyl" class="vinyl" src="./assets/images/vinyl.png" alt="vinyl">
+        <!-- Start with vinyl1 by default -->
+        <img id="vinyl" class="vinyl" src="./assets/images/vinyl1.jpeg" alt="vinyl">
       </div>
       <div class="track-meta">
         <div id="trackTitle" class="track-title">—</div>
@@ -78,10 +79,9 @@
           <div id="timeLabel" class="time-label">0:00 / 0:00</div>
         </div>
       </div>
-      <div id="playlist" class="playlist">
-        <!-- JS fills this; clicking items is disabled to prevent skipping -->
-      </div>
+      <div id="playlist" class="playlist"></div>
     </div>
+
 
     <!-- Wii-style boxes -->
     <div id="boxGrid">
