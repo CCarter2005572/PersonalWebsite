@@ -77,13 +77,16 @@ boxes.forEach(box => {
       opacity: 0,
       duration: 1,
       onComplete: () => {
-        alert(`Entering ${box.textContent}`);
+        // Open GitHub link in new tab
+        window.open("https://github.com/CCarter2005572?tab=repositories", "_blank");
+
         // Reset box for future use
         gsap.set(box, { scale: 1, opacity: 1 });
       }
     });
   });
 });
+
 
 // ===== PLAY HOMEPAGE MUSIC WHEN ENTER BUTTON ANIMATION COMPLETES =====
 const pageContainer = document.getElementById('pageContainer');
