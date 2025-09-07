@@ -62,30 +62,36 @@ setInterval(() => { followingCursor = false; }, 15000); // random after 15s
 setInterval(moveBuddy, 20);
 
 // ===== WII-STYLE BOXES =====
-const boxes = document.querySelectorAll('.box');
+const boxes = document.querySelectorAll('#boxGrid .box');
 const wiiClickSound = new Audio('./assets/sounds/click.mp3');
 
 boxes.forEach(box => {
-  box.addEventListener('click', () => {
-    // Play sci-fi / Wii click
-    wiiClickSound.currentTime = 0;
-    wiiClickSound.play();
+  box.style.cursor = 'pointer';
+  box.addEventListener('click', (e) => {
+    // Prevent the default immediate navigation so we can animate first
+    e.preventDefault();
 
-    // Box animation
+    // Sound
+    wiiClickSound.currentTime = 0;
+    wiiClickSound.play().catch(() => {});
+
+    // Animate the anchor itself
     gsap.to(box, {
       scale: 10,
       opacity: 0,
-      duration: 1,
+      duration: 0.6,
       onComplete: () => {
-        // Open GitHub link in new tab
-        window.open("https://github.com/CCarter2005572?tab=repositories", "_blank");
+        // Open the href from the anchor after animation
+        const url = box.getAttribute('href');
+        window.open(url, '_blank', 'noopener');
 
-        // Reset box for future use
+        // Reset for future clicks
         gsap.set(box, { scale: 1, opacity: 1 });
       }
     });
   });
 });
+
 
 
 // ===== PLAY HOMEPAGE MUSIC WHEN ENTER BUTTON ANIMATION COMPLETES =====

@@ -130,6 +130,21 @@ html, body {
   z-index: 101;
 }
 
+#boxGrid .box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+}
+
 /* Main Boxes */
 .box {
   background: rgba(255,255,255,0.2);
@@ -148,6 +163,12 @@ html, body {
 .box:hover {
   transform: scale(1.2);
   background: rgba(255,255,255,0.35);
+}
+
+/* Optional: keyboard focus ring */
+#boxGrid .box:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
 }
 
 /* CURSOR BUDDY */
@@ -290,6 +311,7 @@ html, body {
 /* Color filter overlay fix */
 .color-filter {
   position: absolute;
+  inset: 0;
   top: 0;
   left: 0;
   width: 100%;
