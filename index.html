@@ -1,114 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Portfolio</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b5e9f7">
+  <meta name="description" content="Cameron 'FREAKYTINK' Carter's retro-inspired home for game development, gaming and music.">
+  <title>Cameron “FREAKYTINK” Carter</title>
   <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/animations.css">
-  <link rel="stylesheet" href="./css/crt.css">
 </head>
 <body>
-
-<div id="pageContainer">
-<!-- MATRIX PAGE -->
-<section id="matrixPage">
-  <canvas id="matrixCanvas"></canvas>
-  <!-- ENTER starts hidden+disabled; CSS/JS will reveal after 4s -->
-  <button id="enterBtn" disabled>ENTER</button>
-
-  <!-- Matrix music -->
-  <audio id="matrixMusic" loop>
-    <source src="./assets/music/digitalrain.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- Matrix click SFX -->
-  <audio id="matrixClickSfx">
-    <source src="./assets/sounds/matrix-click.mp3" type="audio/mpeg">
-  </audio>
-</section>
-
-  <!-- HOMEPAGE -->
-  <section id="homePage">
-    <!-- Background 16-bit Tokyo panning video -->
-    <video id="cityVideo" autoplay loop muted playsinline>
+  <!-- The background stays mounted so music and animation continue between pages. -->
+  <div class="scene" aria-hidden="true">
+    <video id="cityVideo" autoplay muted loop playsinline preload="metadata">
       <source src="./assets/images/train.mp4" type="video/mp4">
     </video>
-
-    <!-- Color filter overlay above video (tweak in CSS) -->
-    <div class="color-filter"></div>
-
-    <!-- CRT overlay stays on top -->
+    <div class="sunshine"></div>
+    <canvas id="audioVisualizer"></canvas>
+    <div id="petals" class="petals"></div>
     <div class="crt-overlay"></div>
+  </div>
 
-    <!-- Buddy controls -->
-    <div id="buddyControls">
-      <label for="buddySelect">Choose your companion: </label>
-      <select id="buddySelect">
-        <option value="rabbit">Rabbit</option>
-        <option value="lizard">Lizard</option>
-      </select>
-    </div>
-
-    <!-- City pop music -->
-    <audio id="bgMusic" loop>
-      <source src="./assets/music/citypop1.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Volume slider (bottom-right) -->
-    <div id="volumeControl">
-      <label for="volumeSlider">Volume:</label>
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
-    </div>
-
-    <!-- Mini music player (bottom-left) -->
-    <div id="miniPlayer" class="mini-player">
-      <div class="vinyl-wrap">
-        <!-- Start with vinyl1 by default -->
-        <img id="vinyl" class="vinyl" src="./assets/images/vinyl1.jpeg" alt="vinyl">
-      </div>
-      <div class="track-meta">
-        <div id="trackTitle" class="track-title">—</div>
-        <div class="controls">
-          <button id="playPauseBtn" aria-label="Play/Pause">⏯</button>
-          <button id="togglePlaylistBtn" aria-label="Show playlist">☰</button>
-        </div>
-        <div class="progress">
-          <div id="progressBar" class="progress-bar">
-            <div id="progressFill" class="progress-fill"></div>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="profile-area">
+        <button type="button" id="profileToggle" class="profile-toggle glass" aria-expanded="false" aria-controls="profilePanel" aria-label="Open Cameron's profile">
+          <span class="avatar" aria-hidden="true">
+            <span class="avatar-fallback">CC</span>
+            <img class="avatar-img" id="avatarPhotoA" alt="">
+            <img class="avatar-img" id="avatarPhotoB" alt="">
+          </span>
+          <span class="profile-toggle-label"><strong>ABOUT ME</strong><small>Meet Cameron ▾</small></span>
+        </button>
+        <div id="profilePanel" class="profile-panel glass" hidden>
+          <div class="panel-heading"><strong>PLAYER PROFILE</strong><span>01 / ABOUT</span></div>
+          <h2>Cameron Carter <span class="accent">// FREAKYTINK</span></h2>
+          <p id="profileBio"></p>
+          <div class="profile-links">
+            <a id="profileEmail" href="#" class="social-link" aria-label="Email Cameron">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 7 9-7"/></svg><span>Email</span>
+            </a>
+            <button type="button" id="profileDiscord" class="social-link" aria-label="Copy Discord username">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5c3.2-1.5 6.8-1.5 10 0l1 2.1c1.5 2.4 2 4.9 2 7.6-1.4 1.1-3 1.9-4.7 2.4l-.9-1.5m-6.8 0-.9 1.5C6 17.1 4.4 16.3 3 15.2c0-2.7.5-5.2 2-7.6l1-2.1Z"/><path d="M8 8.3c2.7-1 5.3-1 8 0"/><circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/></svg><span>Discord</span>
+            </button>
+            <a id="profileLinkedin" href="#" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v11M4 4v.5M9 20v-11h4v1.5c.8-1.2 1.8-1.7 3.2-1.7 2.3 0 3.8 1.3 3.8 4.2V20M9 14v6"/></svg><span>LinkedIn</span>
+            </a>
+            <a id="profileGithub" href="#" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.5 1.4-4.5-2.5-6.5-3m13 6v-3.2a2.8 2.8 0 0 0-.8-2.2c2.8-.3 5.8-1.3 5.8-6.4a5 5 0 0 0-1.4-3.5 4.7 4.7 0 0 0-.1-3.5s-1.1-.3-3.5 1.3a12 12 0 0 0-6.4 0C6.7 2.9 5.6 3.2 5.6 3.2a4.7 4.7 0 0 0-.1 3.5A5 5 0 0 0 4.1 10c0 5.1 3 6.1 5.8 6.4a2.8 2.8 0 0 0-.8 2.2V22"/></svg><span>GitHub</span>
+            </a>
           </div>
-          <div id="timeLabel" class="time-label">0:00 / 0:00</div>
+          <small class="profile-tip">Add your four photos and social details in <code>js/config.js</code>.</small>
         </div>
       </div>
-      <div id="playlist" class="playlist"></div>
+
+      <a class="site-title" href="#home" aria-label="Return to homepage">
+        <span class="site-title-kicker">WELCOME TO MY CORNER OF THE INTERNET</span>
+        <span class="site-title-name">CAMERON <em>“FREAKYTINK”</em> CARTER</span>
+        <span class="site-title-foot">DEVELOPER <span aria-hidden="true">✦</span> GAMER <span aria-hidden="true">✦</span> MUSIC ENJOYER</span>
+      </a>
+
+      <div class="menu-area">
+        <button type="button" id="menuToggle" class="menu-toggle glass" aria-expanded="false" aria-controls="siteNav">
+          <span class="menu-icon" aria-hidden="true">☰</span> EXPLORE <span class="menu-arrow" aria-hidden="true">▾</span>
+        </button>
+        <nav id="siteNav" class="nav-menu glass" aria-label="Website pages" hidden>
+          <div class="panel-heading"><strong>EXPLORE THE SITE</strong><span>SELECT A PAGE</span></div>
+          <a class="nav-tile" href="#home"><span class="nav-tile-icon">⌂</span><span><strong>Home</strong><small>The Tokyo hub</small></span><span>↗</span></a>
+          <a class="nav-tile" href="#karaoke"><span class="nav-tile-icon">♫</span><span><strong>Karaoke</strong><small>Sing along with the player</small></span><span>↗</span></a>
+          <a class="nav-tile" href="#finals"><span class="nav-tile-icon">★</span><span><strong>THE FINALS</strong><small>FREAKYTINK's competitive journey</small></span><span>↗</span></a>
+          <a class="nav-tile" href="#blog"><span class="nav-tile-icon">✎</span><span><strong>Gaming Blog</strong><small>Updates, games &amp; projects</small></span><span>↗</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="mainContent">
+      <section id="homePage" class="page home-page is-active" data-page="home" aria-labelledby="homeHeading">
+        <div class="home-intro"><p class="eyebrow">✦ PICK A CHANNEL ✦</p><h2 id="homeHeading">A little bit of everything.</h2><p>Projects, games, mods and my favourite corners of the internet.</p></div>
+        <div id="boxGrid" class="box-grid">
+          <a class="feature-tile" data-link="unity" href="#" target="_blank" rel="noopener noreferrer"><span class="tile-top"><span class="tile-number">01</span><span class="tile-symbol">🎮</span></span><strong>UNITY PROJECT</strong><span class="tile-subtitle">My multiplayer game</span><span class="tile-cta">VIEW PROJECT ↗</span></a>
+          <a class="feature-tile" data-link="github" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener noreferrer"><span class="tile-top"><span class="tile-number">02</span><span class="tile-symbol">⌘</span></span><strong>GITHUB REPOS</strong><span class="tile-subtitle">Everything I've built</span><span class="tile-cta">EXPLORE CODE ↗</span></a>
+          <a class="feature-tile" data-link="steam" href="#" target="_blank" rel="noopener noreferrer"><span class="tile-top"><span class="tile-number">03</span><span class="tile-symbol">🕹️</span></span><strong>STEAM PROFILE</strong><span class="tile-subtitle">Let's play something</span><span class="tile-cta">VISIT PROFILE ↗</span></a>
+          <a class="feature-tile" data-link="compilers" href="#" target="_blank" rel="noopener noreferrer"><span class="tile-top"><span class="tile-number">04</span><span class="tile-symbol">⌨</span></span><strong>LANGUAGES &amp; COMPILERS</strong><span class="tile-subtitle">University coursework</span><span class="tile-cta">VIEW REPOSITORY ↗</span></a>
+          <a class="feature-tile" data-link="simpsons" href="https://donutteam.com/" target="_blank" rel="noopener noreferrer"><span class="tile-top"><span class="tile-number">05</span><span class="tile-symbol">🍩</span></span><strong>SIMPSONS HIT &amp; RUN</strong><span class="tile-subtitle">Donut Team modding community</span><span class="tile-cta">VISIT COMMUNITY ↗</span></a>
+          <a class="feature-tile" data-link="marioKart" href="https://mkwiiki.org/wiki/Main_Page" target="_blank" rel="noopener noreferrer"><span class="tile-top"><span class="tile-number">06</span><span class="tile-symbol">🏁</span></span><strong>MARIO KART WII</strong><span class="tile-subtitle">Custom Mario Kart Wiiki</span><span class="tile-cta">VISIT COMMUNITY ↗</span></a>
+        </div>
+        <p class="home-bottom-note">PRESS PLAY ↓ &nbsp;·&nbsp; CLICK A TILE TO EXPLORE</p>
+      </section>
+
+      <section id="karaokePage" class="page sub-page" data-page="karaoke" aria-labelledby="karaokeHeading" hidden>
+        <div class="content-panel glass">
+          <p class="eyebrow">♫ MUSIC ROOM / 01</p>
+          <h2 id="karaokeHeading">KARAOKE <span class="accent">NIGHT</span></h2>
+          <p class="page-description">Choose a song from the playlist and sing along with timed lyrics. Playback stays in sync with the vinyl player below.</p>
+          <div class="karaoke-toolbar">
+            <label for="karaokeTrackSelect">SONG <select id="karaokeTrackSelect"></select></label>
+            <label class="file-upload" for="lrcFile">+ LOAD AN .LRC LYRICS FILE <input id="lrcFile" type="file" accept=".lrc,.txt,text/plain"></label>
+          </div>
+          <p id="lyricsStatus" class="lyrics-status" role="status">Select a song to load lyrics.</p>
+          <div id="lyricsList" class="lyrics-list" aria-label="Timed song lyrics"><p class="lyrics-empty">Add your own synced .lrc file to sing along.</p></div>
+          <p class="karaoke-tip">The MP3 files do not contain lyric text. You can upload an .lrc file here or save one in <code>assets/lyrics/</code> and enable it in <code>js/config.js</code>. Use only lyrics you have permission to publish.</p>
+        </div>
+      </section>
+
+      <section id="finalsPage" class="page sub-page" data-page="finals" aria-labelledby="finalsHeading" hidden>
+        <div class="content-panel glass">
+          <p class="eyebrow">★ COMPETITIVE PROFILE / 02</p>
+          <h2 id="finalsHeading">THE <span class="accent">FINALS</span></h2>
+          <p class="page-description"><strong>FREAKYTINK</strong> — my competitive gaming story.</p>
+          <p id="finalsBio" class="finals-bio"></p>
+          <div class="finals-stats">
+            <div class="stat"><small>IN-GAME NAME</small><strong id="finalsName">FREAKYTINK</strong></div>
+            <div class="stat"><small>TEAM</small><strong id="finalsTeam">To be added</strong></div>
+            <div class="stat"><small>RANK / ROLE</small><strong id="finalsRank">To be added</strong></div>
+          </div>
+          <div class="info-block"><h3>COMPETITIVE HIGHLIGHTS</h3><ul id="finalsHighlights"></ul></div>
+          <p class="edit-tip">Tournament results, clips and statistics can be added in <code>js/config.js</code> without changing this page's HTML.</p>
+        </div>
+      </section>
+
+      <section id="blogPage" class="page sub-page" data-page="blog" aria-labelledby="blogHeading" hidden>
+        <div class="content-panel glass">
+          <p class="eyebrow">✎ JOURNAL / 03</p>
+          <h2 id="blogHeading">GAMING <span class="accent">BLOG</span></h2>
+          <p class="page-description">Game development notes, modding discoveries, competition stories and whatever else I'm playing.</p>
+          <div id="blogPosts" class="blog-posts"></div>
+          <p class="edit-tip">Edit <code>blogPosts</code> in <code>js/config.js</code> to publish new articles.</p>
+        </div>
+      </section>
+    </main>
+
+    <div class="corner-stamp" aria-hidden="true">FREAKYTINK.EXE &nbsp; // &nbsp; EST. 2026</div>
+  </div>
+
+  <!-- One audio element drives the player, visualiser and karaoke pages. -->
+  <audio id="siteAudio" preload="none"></audio>
+  <section id="miniPlayer" class="mini-player glass" aria-label="Vinyl music player">
+    <div class="vinyl-wrap"><img id="vinyl" class="vinyl" src="./assets/images/vinyl1.jpeg" alt="A vinyl record"></div>
+    <div class="player-main">
+      <div class="player-title-row"><span class="player-kicker">NOW PLAYING <span class="playing-dot" aria-hidden="true"></span></span><button type="button" id="togglePlaylistBtn" class="playlist-toggle" aria-expanded="false" aria-controls="playlist" title="Show playlist" aria-label="Show playlist">☷ QUEUE</button></div>
+      <div id="trackTitle" class="track-title">Loading playlist…</div>
+      <div class="controls"><button type="button" id="prevBtn" title="Previous track" aria-label="Previous track">⏮</button><button type="button" id="playPauseBtn" class="play-button" title="Play or pause" aria-label="Play">▶</button><button type="button" id="nextBtn" title="Next track" aria-label="Next track">⏭</button><span id="timeLabel" class="time-label">0:00 / 0:00</span></div>
+      <label class="seek-row" for="seekSlider"><span class="sr-only">Seek in track</span><input type="range" id="seekSlider" min="0" max="1000" value="0" aria-label="Seek in current track"></label>
+      <label class="volume-row" for="volumeSlider"><span aria-hidden="true">♪</span><span>VOL</span><input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" aria-label="Music volume"><span id="volumeValue">50%</span></label>
+      <p id="playerStatus" class="sr-only" role="status"></p>
     </div>
-
-
-    <!-- Wii-style boxes -->
-    <div id="boxGrid">
-    <a class="box" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener">Project 1</a>
-    <a class="box" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener">Project 2</a>
-    <a class="box" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener">Project 3</a>
-    <a class="box" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener">Project 4</a>
-    <a class="box" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener">Project 5</a>
-    <a class="box" href="https://github.com/CCarter2005572?tab=repositories" target="_blank" rel="noopener">Project 6</a>
-    </div>
-
-
-    <!-- Cursor buddy -->
-    <img src="./assets/images/rabbit-sprite.png" id="cursorBuddy" alt="Cursor Buddy">
+    <div id="playlist" class="playlist glass" hidden aria-label="Music playlist"></div>
   </section>
-</div>
+  <div id="toast" class="toast glass" role="status" aria-live="polite" hidden></div>
 
-<!-- GSAP for smooth scroll & animations -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js"></script>
-
-<!-- JS -->
-<script src="./js/matrix.js"></script>
-<script src="./js/home.js"></script>
-<script src="./js/cursorBuddy.js"></script>
-<script src="./js/easterEggs.js"></script>
-<script src="./js/music.js"></script>
-
+  <script src="./js/config.js" defer></script>
+  <script src="./js/music.js" defer></script>
+  <script src="./js/visualizer.js" defer></script>
+  <script src="./js/home.js" defer></script>
+  <script src="./js/easterEggs.js" defer></script>
 </body>
 </html>
